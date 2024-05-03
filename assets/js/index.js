@@ -7,38 +7,39 @@ let sonidoAnimal;
 let listaAnimales = [];
 let anm;
 
+document.getElementById("animal").addEventListener("change", async (evento) => {
+    let animaleSeleccionado = evento.target.value
+    const jsonAnimales = await animales.getDatos()
+    const animalObj = jsonAnimales.find((objeto) => {
+        return objeto.name == animaleSeleccionado
+    })
+    imagenAnimal = `./assets/imgs/${animalObj.imagen}`
+    sonidoAnimal = animalObj.sonido
+
+    const elementoPreview = document.getElementById("preview");
+    elementoPreview.style.backgroundImage = `url(${imagenAnimal})`
+
+
+})
+
 
 
 document.getElementById("btnRegistrar").addEventListener("click", async () => {
 
     const htmlNombre = document.getElementById("animal")
     const animalNombre = htmlNombre.value
-    console.log(animalNombre)
 
     const htmlAños = document.getElementById("edad")
     const animalAños = htmlAños.value
-    console.log(animalAños)
 
     const htmlComentarios = document.getElementById("comentarios")
     const comentarios = htmlComentarios.value
-    console.log(comentarios)
-
-    const elementoPreview = document.getElementById("preview");
 
 
     const jsonAnimales = await animales.getDatos();
     const animalObj = jsonAnimales.find((objeto) => {
         return objeto.name == animalNombre
     })
-
-
-    imagenAnimal = `./assets/imgs/${animalObj.imagen}`
-
-    sonidoAnimal = animalObj.sonido
-
-    elementoPreview.style.backgroundImage = `url(${imagenAnimal})`
-
-
 
 
 
@@ -92,35 +93,10 @@ document.getElementById("btnRegistrar").addEventListener("click", async () => {
     console.log(listaAnimales)
 
 
-    const tabla = document.getElementById("Animales");
-    const nuevaFila = document.createElement("div");
-    nuevaFila.classList.add("row", "animal");
 
-    // Crear elementos para mostrar los atributos del animal
-    const columnaNombre = document.createElement("div");
-    columnaNombre.classList.add("col");
-    columnaNombre.textContent = "Nombre: " + animalNombre;
-
-    const columnaAños = document.createElement("div");
-    columnaAños.classList.add("col");
-    columnaAños.textContent = "Años: " + animalAños;
-
-    const columnaComentarios = document.createElement("div");
-    columnaComentarios.classList.add("col");
-    columnaComentarios.textContent = "Comentarios: " + comentarios;
-
-    // Añadir los elementos a la fila
-    nuevaFila.appendChild(columnaNombre);
-    nuevaFila.appendChild(columnaAños);
-    nuevaFila.appendChild(columnaComentarios);
-
-    // Añadir la fila a la tabla
-    tabla.appendChild(nuevaFila);
-
-    // refrescando el formulario despues del evento click!
     htmlNombre.selectedIndex = 0;
     htmlAños.selectedIndex = 0;
-    // htmlComentarios.value = "";
+    htmlComentarios.value = "";
 
 
 })
